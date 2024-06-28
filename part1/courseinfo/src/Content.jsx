@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types';
 import Part from './Part';
 
-const Content = (props) => {
+const Content = ({parts}) => {
     return (
     <div>
-        <Part part={props.part1} exercises={props.exercises1}/>
-        <Part part={props.part2} exercises={props.exercises2}/>
-        <Part part={props.part3} exercises={props.exercises3}/>
+        {
+            parts.map( part => {
+                return (
+                    <Part key={part.name} name={part.name} exercises={part.exercises} />
+                )
+            })
+        }
     </div>
     );
 }
 
 Content.propTypes = {
-    part1: PropTypes.string,
-    part2: PropTypes.string,
-    part3: PropTypes.string,
-    exercises1: PropTypes.number,
-    exercises2: PropTypes.number,
-    exercises3: PropTypes.number,
+    parts: PropTypes.array,
 };
 
 export default Content;

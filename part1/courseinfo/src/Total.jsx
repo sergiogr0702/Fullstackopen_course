@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 
-const Total = (props) => {
+const Total = ({parts}) => {
     return (
-        <p>Number of exercises {props.total}</p>
+        <p>Number of exercises {parts.reduce((accumulator, currentValue) => accumulator + currentValue['exercises'], 0)}</p>
     );
 }
 
 Total.propTypes = {
-    total: PropTypes.number,
+    parts: PropTypes.array,
 };
 
 export default Total;

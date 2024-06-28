@@ -4,14 +4,14 @@ const Part = (props) => {
     return (
     <>
         <p>
-            {props.part} {props.exercises}
+            {props.name} {props.exercises}
         </p>
     </>
     );
 }
 
 Part.propTypes = {
-    part: PropTypes.string,
+    name: PropTypes.string,
     exercises: PropTypes.number,
 };
 
