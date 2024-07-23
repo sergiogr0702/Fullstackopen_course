@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvcmdlXzEyMyIsImlkIjoiNjY5ZmEwODUyYmM2ODA4ZGRiYjE3ODNmIiwiaWF0IjoxNzIxNzQwMzAxLCJleHAiOjE3MjE3NDM5MDF9.e5GXmdhRmqdx-xwpyC4t0aWVXn0RQtsyCfZyOYBrIE8
+
+
+{
+    "title": "New Example Blog 5",
+    "url": "http://localhost:3003/api/"
+}
