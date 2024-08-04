@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import repositoryReducer from "@/reducers/repositoryReducer";
 import deviceReducer from "@/reducers/deviceReducer";
+import authReducer from "@/reducers/authReducer";
 
 const store = configureStore({
   reducer: {
-    repositories: repositoryReducer,
     device: deviceReducer,
+    auth: authReducer,
   },
 });
 

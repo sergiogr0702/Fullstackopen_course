@@ -13,6 +13,8 @@ import store from "@/store";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AppBar } from "@/components/AppBar";
+import { ApolloProvider } from "@apollo/react-hooks";
+import createApolloClient from "@/utils/apolloClient";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,14 +35,19 @@ export default function RootLayout() {
     return null;
   }
 
+  const dispatch = store.dispatch;
+  const apolloClient = createApolloClient(dispatch);
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Provider store={store}>
-        <AppBar />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        <ApolloProvider client={apolloClient}>
+          <AppBar />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ApolloProvider>
       </Provider>
     </ThemeProvider>
   );
