@@ -7,8 +7,14 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { ME as MeType } from "@/types";
+import { ME } from "@/graphql/queries";
+import { useQuery } from "@apollo/client";
 
 export default function TabLayout() {
+  const { data, error, loading } = useQuery<MeType>(ME, {
+    fetchPolicy: "cache-and-network",
+  });
   const deviceType = useAppSelector((state) => state.device);
 
   const colorScheme = useColorScheme();
@@ -49,6 +55,10 @@ export default function TabLayout() {
     screenOptions = { ...screenOptions, ...newProperties };
   }
 
+  if (loading || error) {
+    return null;
+  }
+
   return (
     <Tabs screenOptions={{ ...screenOptions }}>
       <Tabs.Screen
@@ -69,7 +79,9 @@ export default function TabLayout() {
         options={{
           title: "Create a review",
           href:
-            deviceType === "desktop" || deviceType === "tv" ? null : "/create",
+            deviceType === "desktop" || deviceType === "tv" || !data?.me
+              ? null
+              : "/create",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "add-circle" : "add-circle-outline"}
@@ -79,16 +91,37 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="reviews/index"
+        options={{
+          title: "My reviews",
+          href:
+            deviceType === "desktop" || deviceType === "tv" || !data?.me
+              ? null
+              : "/reviews",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "map" : "map-outline"} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="repositories/[id]"
+        options={{
+          title: "Detailed repository",
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="login/index"
         options={{
           title: "Log In",
           href: null,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "person-add" : "person-add-outline"}
-              color={color}
-            />
-          ),
+        }}
+      />
+      <Tabs.Screen
+        name="register/index"
+        options={{
+          title: "Register",
+          href: null,
         }}
       />
     </Tabs>

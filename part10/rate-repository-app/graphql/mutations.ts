@@ -13,3 +13,32 @@ export const AUHTENTICATE_USER = gql`
     }
   }
 `;
+
+export const CREATE_REVIEW = gql`
+  mutation createReview($review: CreateReviewInput) {
+    createReview(review: $review) {
+      id
+      userId
+      repositoryId
+      rating
+      text
+      createdAt
+    }
+  }
+`;
+
+export const CREATE_USER = gql`
+  mutation createUser($user: CreateUserInput) {
+    createUser(user: $user) {
+      id
+      username
+      createdAt
+    }
+  }
+`;
+
+export const DELETE_REVIEW = gql`
+  mutation deleteReview($deleteReviewId: ID!) {
+    deleteReview(id: $deleteReviewId)
+  }
+`;

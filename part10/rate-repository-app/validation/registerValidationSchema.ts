@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const loginValidationSchema = yup.object().shape({
+export const registerValidationSchema = yup.object().shape({
   username: yup
     .string()
     .min(1, "Username must be at least 1 character long")
@@ -11,4 +11,8 @@ export const loginValidationSchema = yup.object().shape({
     .min(5, "Password must be at least 5 characters long")
     .max(50, "Password must be at most 50 characters long")
     .required("Password is required"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords do not match")
+    .required("Password confirmation is required"),
 });

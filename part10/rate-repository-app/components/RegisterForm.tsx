@@ -3,21 +3,25 @@ import { FormikTextInput } from "./forms/FormikTextInput";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import { Formik, FormikHelpers } from "formik";
-import { loginValidationSchema } from "@/validation/loginValidationSchema";
-import { LoginFormValues } from "@/types";
+import { registerValidationSchema } from "@/validation/registerValidationSchema";
+import { RegisterFormValues } from "@/types";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface Props {
   onSubmit: (
-    values: LoginFormValues,
-    helpers: FormikHelpers<LoginFormValues>
+    values: RegisterFormValues,
+    helpers: FormikHelpers<RegisterFormValues>
   ) => void;
 }
 
-export function LoginForm({ onSubmit }: Props) {
+export function RegisterForm({ onSubmit }: Props) {
   const buttonColor = useThemeColor({}, "buttonPrimary");
   const buttonTextColor = useThemeColor({}, "primaryButtonText");
-  const initialValues: LoginFormValues = { username: "", password: "" };
+  const initialValues: RegisterFormValues = {
+    username: "",
+    password: "",
+    passwordConfirmation: "",
+  };
 
   const styles = StyleSheet.create({
     submitButton: {
@@ -33,7 +37,7 @@ export function LoginForm({ onSubmit }: Props) {
   return (
     <ThemedView>
       <Formik
-        validationSchema={loginValidationSchema}
+        validationSchema={registerValidationSchema}
         initialValues={initialValues}
         onSubmit={onSubmit}
       >
@@ -45,6 +49,11 @@ export function LoginForm({ onSubmit }: Props) {
               placeholder="Password"
               secureTextEntry
             />
+            <FormikTextInput
+              name="passwordConfirmation"
+              placeholder="Password Confirmation"
+              secureTextEntry
+            />
             <Pressable
               style={styles.submitButton}
               onPress={() => handleSubmit()}
@@ -53,7 +62,7 @@ export function LoginForm({ onSubmit }: Props) {
                 type="defaultSemiBold"
                 style={{ marginTop: 10, color: buttonTextColor }}
               >
-                Log in
+                Sign up
               </ThemedText>
             </Pressable>
           </>

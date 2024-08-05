@@ -3,21 +3,26 @@ import { FormikTextInput } from "./forms/FormikTextInput";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import { Formik, FormikHelpers } from "formik";
-import { loginValidationSchema } from "@/validation/loginValidationSchema";
-import { LoginFormValues } from "@/types";
+import { ReviewFormValues } from "@/types";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { reviewValidationSchema } from "@/validation/reviewValidationSchema";
 
 interface Props {
   onSubmit: (
-    values: LoginFormValues,
-    helpers: FormikHelpers<LoginFormValues>
+    values: ReviewFormValues,
+    helpers: FormikHelpers<ReviewFormValues>
   ) => void;
 }
 
-export function LoginForm({ onSubmit }: Props) {
+export function ReviewForm({ onSubmit }: Props) {
   const buttonColor = useThemeColor({}, "buttonPrimary");
   const buttonTextColor = useThemeColor({}, "primaryButtonText");
-  const initialValues: LoginFormValues = { username: "", password: "" };
+  const initialValues: ReviewFormValues = {
+    ownerName: "",
+    name: "",
+    rating: 0,
+    review: "",
+  };
 
   const styles = StyleSheet.create({
     submitButton: {
@@ -33,18 +38,23 @@ export function LoginForm({ onSubmit }: Props) {
   return (
     <ThemedView>
       <Formik
-        validationSchema={loginValidationSchema}
+        validationSchema={reviewValidationSchema}
         initialValues={initialValues}
         onSubmit={onSubmit}
       >
         {({ handleSubmit }) => (
           <>
-            <FormikTextInput name="username" placeholder="Username" />
             <FormikTextInput
-              name="password"
-              placeholder="Password"
-              secureTextEntry
+              name="ownerName"
+              placeholder="Repository owner name"
             />
+            <FormikTextInput name="name" placeholder="Repository name" />
+            <FormikTextInput
+              name="rating"
+              keyboardType="numeric"
+              placeholder="Rating between 0 and 100"
+            />
+            <FormikTextInput name="review" placeholder="Review" />
             <Pressable
               style={styles.submitButton}
               onPress={() => handleSubmit()}
@@ -53,7 +63,7 @@ export function LoginForm({ onSubmit }: Props) {
                 type="defaultSemiBold"
                 style={{ marginTop: 10, color: buttonTextColor }}
               >
-                Log in
+                Create review
               </ThemedText>
             </Pressable>
           </>
@@ -62,3 +72,5 @@ export function LoginForm({ onSubmit }: Props) {
     </ThemedView>
   );
 }
+
+//

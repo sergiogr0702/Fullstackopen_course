@@ -21,6 +21,7 @@ const fontFamily = Platform.select({
 });
 
 export function ThemedText({
+  testID,
   style,
   lightColor,
   darkColor,
@@ -31,6 +32,7 @@ export function ThemedText({
 
   return (
     <Text
+      testID={testID}
       style={[
         { color, fontFamily },
         type === "default" ? styles.default : undefined,

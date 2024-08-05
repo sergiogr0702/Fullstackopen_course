@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
@@ -29,10 +29,10 @@ export function AddButton({ href }: Props) {
   });
 
   return (
-    <TouchableOpacity style={styles.addButton}>
+    <Pressable style={styles.addButton}>
       <Link href={href}>
         <Ionicons color={textColor} size={40} name="add"></Ionicons>
       </Link>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

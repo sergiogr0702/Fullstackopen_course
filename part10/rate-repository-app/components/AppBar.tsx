@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { DeviceType, getDeviceTypeAsync } from "expo-device";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -15,6 +15,7 @@ import { ME as MeType } from "@/types";
 import { getAccessToken, removeAccessToken } from "@/reducers/authReducer";
 
 export function AppBar() {
+  const [deviceType, setDeviceType] = useState("unknown");
   const { data, error, loading } = useQuery<MeType>(ME, {
     fetchPolicy: "cache-and-network",
   });
@@ -32,6 +33,7 @@ export function AppBar() {
 
   useEffect(() => {
     getDeviceTypeAsync().then((deviceType) => {
+      setDeviceType(deviceTypeMap[deviceType]);
       dispatch(setDevice(deviceTypeMap[deviceType]));
     });
   }, []);
@@ -79,6 +81,12 @@ export function AppBar() {
       top: 20,
       right: 40,
     },
+    actionsContainer: {
+      backgroundColor: Colors[colorScheme ?? "light"].appBar,
+      display: "flex",
+      flexDirection: "row",
+      gap: 10,
+    },
   });
 
   const handleLogOut = async () => {
@@ -94,19 +102,37 @@ export function AppBar() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText style={styles.appName} type="subtitle">
-        Rate repository app
+        <Link href="/">Rate repository app</Link>
       </ThemedText>
 
       {data?.me ? (
-        <TouchableOpacity onPress={handleLogOut}>
-          <ThemedText style={styles.link} type="defaultSemiBold">
-            Log out
-          </ThemedText>
-        </TouchableOpacity>
+        deviceType === "desktop" || deviceType === "tv" ? (
+          <ThemedView style={styles.actionsContainer}>
+            <ThemedText style={styles.link} type="defaultSemiBold">
+              <Link href="/reviews">My reviews</Link>
+            </ThemedText>
+            <Pressable onPress={handleLogOut}>
+              <ThemedText style={styles.link} type="defaultSemiBold">
+                Log out
+              </ThemedText>
+            </Pressable>
+          </ThemedView>
+        ) : (
+          <Pressable onPress={handleLogOut}>
+            <ThemedText style={styles.link} type="defaultSemiBold">
+              Log out
+            </ThemedText>
+          </Pressable>
+        )
       ) : (
-        <ThemedText style={styles.link} type="defaultSemiBold">
-          <Link href="/login">Log in</Link>
-        </ThemedText>
+        <ThemedView style={styles.actionsContainer}>
+          <ThemedText style={styles.link} type="defaultSemiBold">
+            <Link href="/register">Register</Link>
+          </ThemedText>
+          <ThemedText style={styles.link} type="defaultSemiBold">
+            <Link href="/login">Log in</Link>
+          </ThemedText>
+        </ThemedView>
       )}
     </ThemedView>
   );
